@@ -22,6 +22,7 @@
     --coral:#FF6B5E;
     --mint:#6FCF97;
     --sky:#6FB6DE;
+    --purple:#B49CE0;
     --safe-t:env(safe-area-inset-top,0px);
     --safe-b:env(safe-area-inset-bottom,0px);
     --safe-l:env(safe-area-inset-left,0px);
@@ -46,10 +47,9 @@
   h1,h2,h3{margin:0;}
   button{font-family:inherit; -webkit-appearance:none; appearance:none; border:none; background:none; color:inherit; cursor:pointer;}
   button:focus-visible, .tap-target:focus-visible{outline:3px solid var(--sky); outline-offset:3px;}
-
   .hidden{display:none !important;}
 
-  /* ---------- chalkboard texture (shared) ---------- */
+  /* ---------- chalkboard texture ---------- */
   .board-bg{
     position:fixed; inset:0; z-index:0; pointer-events:none;
     background:
@@ -64,22 +64,17 @@
   #lockScreen{
     position:fixed; inset:0; z-index:50;
     display:flex; align-items:center; justify-content:center;
-    padding:32px;
-    background:var(--board-deep);
+    padding:32px; background:var(--board-deep);
   }
   .lock-card{ text-align:center; max-width:420px; }
   .phone-doodle{
     width:96px; height:150px; margin:0 auto 26px;
-    border:3px solid var(--chalk);
-    border-radius:20px;
-    position:relative;
-    transform:rotate(-4deg);
-    opacity:.9;
+    border:3px solid var(--chalk); border-radius:20px;
+    position:relative; transform:rotate(-4deg); opacity:.9;
   }
   .phone-doodle::before{
     content:""; position:absolute; top:14px; left:12px; right:12px; bottom:26px;
-    border:2px dashed var(--chalk-dim);
-    border-radius:6px;
+    border:2px dashed var(--chalk-dim); border-radius:6px;
   }
   .phone-doodle::after{
     content:""; position:absolute; bottom:10px; left:50%; width:26px; height:26px;
@@ -93,73 +88,99 @@
     position:relative; z-index:1;
     min-height:100vh; min-height:100dvh;
     max-width:520px; margin:0 auto;
-    padding: calc(18px + var(--safe-t)) calc(20px + var(--safe-r)) calc(18px + var(--safe-b)) calc(20px + var(--safe-l));
+    padding: calc(16px + var(--safe-t)) calc(20px + var(--safe-r)) calc(16px + var(--safe-b)) calc(20px + var(--safe-l));
     display:flex; flex-direction:column;
   }
-
   .screen{ flex:1; display:flex; flex-direction:column; }
 
+  /* ---------- MASCOT ---------- */
+  .mascot{
+    width:80px; height:80px; border-radius:50%;
+    border:3px dashed var(--chalk); position:relative;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,.03); flex-shrink:0;
+  }
+  .mascot.small{ width:42px; height:42px; border-width:2px; }
+  .mascot-eyes{ position:absolute; top:32%; left:50%; transform:translateX(-50%); display:flex; gap:14px; }
+  .mascot.small .mascot-eyes{ gap:8px; top:30%; }
+  .mascot-eye{ width:6px; height:6px; border-radius:50%; background:var(--chalk); }
+  .mascot.small .mascot-eye{ width:4px; height:4px; }
+  .mascot-mouth{ position:absolute; top:55%; left:50%; transform:translate(-50%,-50%); background:var(--chalk); }
+  .mascot.neutral .mascot-mouth{ width:22px; height:3px; border-radius:2px; background:var(--chalk); }
+  .mascot.happy .mascot-mouth{ width:26px; height:13px; border:0; border-bottom:4px solid var(--chalk); border-radius:0 0 26px 26px; background:transparent; }
+  .mascot.sad .mascot-mouth{ width:26px; height:13px; border:0; border-top:4px solid var(--chalk); border-radius:26px 26px 0 0; background:transparent; top:62%; }
+  .mascot.wow .mascot-mouth{ width:14px; height:14px; border-radius:50%; border:3px solid var(--chalk); background:transparent; }
+  .mascot.small .mascot-mouth{ transform:translate(-50%,-50%) scale(.65); }
+
   /* ---------- START SCREEN ---------- */
-  #startScreen{ justify-content:center; align-items:center; text-align:center; gap:22px; }
+  #startScreen{ justify-content:flex-start; align-items:center; text-align:center; gap:16px; padding-top:6px; overflow-y:auto; }
   .badge{
-    font-size:13px; letter-spacing:.02em; color:var(--board-deep);
-    background:var(--yellow); padding:6px 14px; border-radius:20px;
-    transform:rotate(-2deg); font-weight:700;
+    font-size:13px; color:var(--board-deep); background:var(--yellow);
+    padding:6px 14px; border-radius:20px; transform:rotate(-2deg); font-weight:700;
   }
-  .title-wrap{ position:relative; }
-  #startScreen h1{
-    font-family:'Permanent Marker', cursive; font-weight:400;
-    font-size:clamp(36px, 10vw, 46px);
-    line-height:1.15;
-  }
-  .underline-svg{ width:min(78vw, 320px); height:18px; display:block; margin:2px auto 0; }
+  .title-wrap{ position:relative; margin-top:4px; }
+  #startScreen h1{ font-family:'Permanent Marker', cursive; font-weight:400; font-size:clamp(32px, 9vw, 42px); line-height:1.15; }
+  .underline-svg{ width:min(74vw, 300px); height:16px; display:block; margin:2px auto 0; }
   .underline-svg path{ fill:none; stroke:var(--sky); stroke-width:5; stroke-linecap:round; }
-  .subtitle{ color:var(--chalk-dim); font-size:16px; max-width:320px; line-height:1.5; }
+  .subtitle{ color:var(--chalk-dim); font-size:15px; max-width:320px; line-height:1.5; }
 
-  .rules{
-    display:flex; flex-direction:column; gap:10px;
-    background:rgba(255,255,255,.04);
-    border:2px dashed rgba(244,241,230,.35);
-    border-radius:16px;
-    padding:16px 18px;
-    text-align:left;
-    width:100%; max-width:340px;
+  .hs-row{ display:flex; gap:10px; }
+  .hs-chip{
+    background:rgba(255,255,255,.05); border:2px dashed rgba(244,241,230,.35);
+    border-radius:12px; padding:8px 14px; font-size:13px; text-align:center;
   }
-  .rules .rule{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; color:var(--chalk); }
-  .rules .rule b{ color:var(--yellow); }
+  .hs-chip b{ display:block; font-size:17px; color:var(--yellow); font-family:'Permanent Marker',cursive; font-weight:400; }
 
-  .btn-primary{
-    background:var(--yellow); color:var(--board-deep);
-    font-weight:800; font-size:19px;
-    padding:16px 44px;
-    border-radius:14px;
-    border:2px solid rgba(0,0,0,.15);
-    box-shadow:0 4px 0 #b98d2c;
-    transform:rotate(-1deg);
-    transition:transform .12s ease, box-shadow .12s ease;
+  .modes{ display:flex; flex-direction:column; gap:12px; width:100%; max-width:360px; }
+  .mode-card{
+    text-align:left; border-radius:16px; padding:16px 18px;
+    border:2px solid rgba(244,241,230,.5); background:rgba(255,255,255,.04);
+    display:flex; flex-direction:column; gap:4px;
+    transition:transform .1s ease, background-color .15s ease;
   }
-  .btn-primary:active{ transform:translateY(3px) rotate(-1deg); box-shadow:0 1px 0 #b98d2c; }
+  .mode-card:active{ transform:scale(.98); }
+  .mode-card .m-top{ display:flex; align-items:center; justify-content:space-between; }
+  .mode-card .m-name{ font-size:19px; font-weight:800; }
+  .mode-card .m-tag{ font-size:11.5px; font-weight:700; padding:3px 10px; border-radius:10px; color:var(--board-deep); }
+  .mode-card.quick{ border-color:var(--sky); }
+  .mode-card.quick .m-tag{ background:var(--sky); }
+  .mode-card.marathon{ border-color:var(--coral); }
+  .mode-card.marathon .m-tag{ background:var(--coral); }
+  .mode-card .m-desc{ font-size:13.5px; color:var(--chalk-dim); line-height:1.4; }
 
-  .btn-secondary{
-    color:var(--chalk); font-weight:700; font-size:15px;
-    padding:10px 20px; border-radius:10px;
-    border:2px solid var(--chalk-dim);
+  .ach-row{ display:flex; gap:10px; flex-wrap:wrap; justify-content:center; max-width:360px; }
+  .ach-badge{
+    width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-size:20px; background:rgba(255,255,255,.05); border:2px solid rgba(244,241,230,.3); position:relative;
   }
+  .ach-badge.unlocked{ border-color:var(--yellow); background:rgba(242,193,78,.15); }
+  .ach-badge.locked{ filter:grayscale(1); opacity:.35; }
+
+  .btn-secondary{ color:var(--chalk); font-weight:700; font-size:14px; padding:9px 18px; border-radius:10px; border:2px solid var(--chalk-dim); }
   .btn-secondary:active{ background:rgba(255,255,255,.08); }
 
   /* ---------- GAME SCREEN ---------- */
-  #gameScreen{ gap:16px; }
+  #gameScreen{ gap:12px; }
 
-  .hud{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-  .hearts{ display:flex; gap:4px; font-size:20px; }
-  .hearts span{ filter: drop-shadow(0 1px 0 rgba(0,0,0,.3)); }
-  .hearts span.lost{ opacity:.25; }
-  .round-label{ font-size:13.5px; color:var(--chalk-dim); font-weight:600; }
+  .hud{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .hud-left{ display:flex; align-items:center; gap:8px; }
+  .hearts{ display:flex; gap:3px; font-size:18px; }
+  .hearts span.lost{ opacity:.22; }
+  .round-label{ font-size:12.5px; color:var(--chalk-dim); font-weight:600; }
   .score-label{ font-size:16px; font-weight:800; color:var(--yellow); }
 
   .timer-track{ height:8px; border-radius:6px; background:rgba(255,255,255,.12); overflow:hidden; }
   .timer-fill{ height:100%; width:100%; background:var(--sky); border-radius:6px; transition:width .1s linear, background-color .25s ease; }
   .timer-fill.warn{ background:var(--coral); }
+
+  .powerups{ display:flex; gap:10px; justify-content:center; }
+  .pu-btn{
+    display:flex; align-items:center; gap:6px; font-size:13px; font-weight:700;
+    padding:7px 12px; border-radius:12px; border:2px solid var(--purple); color:var(--chalk);
+    background:rgba(180,156,224,.12);
+  }
+  .pu-btn:disabled{ opacity:.3; border-color:var(--chalk-dim); }
+  .pu-btn .n{ background:var(--purple); color:var(--board-deep); border-radius:8px; padding:0 6px; font-size:11.5px; }
 
   .streak-chip{
     align-self:center; font-size:13px; font-weight:700; color:var(--board-deep);
@@ -169,79 +190,81 @@
   .streak-chip.show{ opacity:1; transform:translateY(0) scale(1); }
 
   .verb-card{
-    position:relative;
-    margin-top:6px;
-    border:2px dashed rgba(244,241,230,.4);
-    border-radius:20px;
-    padding:28px 20px 24px;
-    text-align:center;
-    background:rgba(255,255,255,.03);
+    position:relative; border:2px dashed rgba(244,241,230,.4); border-radius:20px;
+    padding:22px 18px 20px; text-align:center; background:rgba(255,255,255,.03);
   }
-  .verb-inf{ font-family:'Permanent Marker', cursive; font-weight:400; font-size:clamp(30px,9vw,38px); }
-  .verb-es{ color:var(--chalk-dim); font-size:15px; margin-top:4px; }
+  .verb-card.shake{ animation:shake .35s ease; }
+  @keyframes shake{ 0%,100%{transform:translateX(0);} 20%{transform:translateX(-8px);} 40%{transform:translateX(7px);} 60%{transform:translateX(-5px);} 80%{transform:translateX(4px);} }
+  .verb-inf{ font-family:'Permanent Marker', cursive; font-weight:400; font-size:clamp(28px,8.5vw,36px); }
+  .verb-es{ color:var(--chalk-dim); font-size:14px; margin-top:2px; }
   .verb-ask{
-    display:inline-block; margin-top:14px;
-    font-size:13.5px; font-weight:700; letter-spacing:.01em;
-    color:var(--board-deep); background:var(--sky);
-    padding:6px 14px; border-radius:20px;
+    display:inline-block; margin-top:12px; font-size:13px; font-weight:700;
+    color:var(--board-deep); background:var(--sky); padding:6px 14px; border-radius:20px;
   }
 
-  #answersGrid{
-    position:relative;
-    display:grid; grid-template-columns:1fr 1fr; gap:12px;
-    margin-top:6px;
-  }
+  #answersGrid{ position:relative; display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .answer-btn{
-    background:rgba(255,255,255,.05);
-    border:2px solid rgba(244,241,230,.5);
-    border-radius:14px;
-    padding:16px 8px;
-    font-size:18px; font-weight:700;
-    color:var(--chalk);
-    min-height:58px;
-    transition:transform .08s ease, background-color .15s ease, border-color .15s ease;
+    background:rgba(255,255,255,.05); border:2px solid rgba(244,241,230,.5); border-radius:14px;
+    padding:15px 8px; font-size:17px; font-weight:700; color:var(--chalk); min-height:56px;
+    transition:transform .08s ease, background-color .15s ease, border-color .15s ease, opacity .15s ease;
   }
   .answer-btn:active{ transform:scale(.96); }
   .answer-btn.correct{ background:rgba(111,207,151,.18); border-color:var(--mint); color:var(--mint); }
   .answer-btn.wrong{ background:rgba(255,107,94,.18); border-color:var(--coral); color:var(--coral); }
-  .answer-btn.dim{ opacity:.5; }
+  .answer-btn.dim{ opacity:.35; }
   .answer-btn:disabled{ pointer-events:none; }
 
   #feedbackLayer{ position:absolute; inset:0; pointer-events:none; overflow:visible; }
   #feedbackLayer svg{ position:absolute; }
   #feedbackLayer path{ fill:none; stroke-linecap:round; stroke-linejoin:round; transition:stroke-dashoffset .5s ease; }
 
-  .feedback-msg{
-    text-align:center; min-height:24px; font-weight:700; font-size:15px;
-  }
+  .feedback-msg{ text-align:center; min-height:22px; font-weight:700; font-size:14.5px; }
   .feedback-msg.correct{ color:var(--mint); }
   .feedback-msg.wrong{ color:var(--coral); }
 
   /* ---------- END SCREEN ---------- */
-  #endScreen{ justify-content:flex-start; gap:18px; padding-top:8px; text-align:center; align-items:center; }
-  #endScreen h2{ font-family:'Permanent Marker', cursive; font-weight:400; font-size:30px; }
-  .end-sub{ color:var(--chalk-dim); font-size:15px; max-width:320px; }
-  .score-big{ font-family:'Permanent Marker', cursive; font-size:56px; color:var(--yellow); line-height:1; }
-  .score-caption{ color:var(--chalk-dim); font-size:13px; }
-  .stat-row{ display:flex; gap:26px; }
+  #endScreen{ justify-content:flex-start; gap:14px; padding-top:4px; text-align:center; align-items:center; overflow-y:auto; }
+  #endScreen h2{ font-family:'Permanent Marker', cursive; font-weight:400; font-size:28px; }
+  .end-sub{ color:var(--chalk-dim); font-size:14.5px; max-width:320px; }
+  .score-big{ font-family:'Permanent Marker', cursive; font-size:50px; color:var(--yellow); line-height:1; }
+  .score-caption{ color:var(--chalk-dim); font-size:12.5px; }
+  .stat-row{ display:flex; gap:22px; }
   .stat{ text-align:center; }
-  .stat .num{ font-size:20px; font-weight:800; color:var(--sky); }
-  .stat .lab{ font-size:11.5px; color:var(--chalk-dim); }
+  .stat .num{ font-size:19px; font-weight:800; color:var(--sky); }
+  .stat .lab{ font-size:11px; color:var(--chalk-dim); }
 
-  .review{
-    width:100%; text-align:left;
-    border-top:2px dashed rgba(244,241,230,.3);
-    padding-top:14px; margin-top:4px;
-  }
-  .review h3{ font-size:14px; color:var(--chalk-dim); font-weight:700; margin-bottom:8px; }
-  .review-item{
-    display:flex; justify-content:space-between; gap:8px;
-    font-size:14px; padding:8px 0; border-bottom:1px solid rgba(244,241,230,.12);
-  }
+  .review{ width:100%; text-align:left; border-top:2px dashed rgba(244,241,230,.3); padding-top:12px; margin-top:2px; max-height:220px; overflow-y:auto; }
+  .review h3{ font-size:13.5px; color:var(--chalk-dim); font-weight:700; margin-bottom:6px; }
+  .review-item{ display:flex; justify-content:space-between; gap:8px; font-size:13.5px; padding:7px 0; border-bottom:1px solid rgba(244,241,230,.12); }
   .review-item b{ color:var(--chalk); }
   .review-item .forms{ color:var(--coral); text-align:right; }
 
-  .end-actions{ display:flex; flex-direction:column; gap:10px; width:100%; max-width:280px; margin-top:6px; }
+  .end-actions{ display:flex; flex-direction:column; gap:9px; width:100%; max-width:280px; margin-top:2px; }
+
+  .btn-primary{
+    background:var(--yellow); color:var(--board-deep); font-weight:800; font-size:18px;
+    padding:15px 40px; border-radius:14px; border:2px solid rgba(0,0,0,.15);
+    box-shadow:0 4px 0 #b98d2c; transform:rotate(-1deg);
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .btn-primary:active{ transform:translateY(3px) rotate(-1deg); box-shadow:0 1px 0 #b98d2c; }
+
+  /* ---------- TOASTS / CONFETTI ---------- */
+  #toastLayer{ position:fixed; top:calc(14px + var(--safe-t)); left:0; right:0; z-index:60; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; }
+  .toast{
+    background:var(--board-deep); border:2px solid var(--yellow); color:var(--chalk);
+    padding:10px 18px; border-radius:14px; font-size:14px; font-weight:700; text-align:center;
+    max-width:80vw; box-shadow:0 4px 14px rgba(0,0,0,.4);
+    transform:translateY(-16px); opacity:0; transition:transform .25s ease, opacity .25s ease;
+  }
+  .toast.show{ transform:translateY(0); opacity:1; }
+
+  #confettiLayer{ position:fixed; inset:0; z-index:55; pointer-events:none; overflow:hidden; }
+  .confetti-piece{ position:absolute; top:-10px; width:8px; height:14px; opacity:.95; animation:confettiFall linear forwards; }
+  @keyframes confettiFall{
+    0%{ transform:translateY(0) rotate(0deg); opacity:1; }
+    100%{ transform:translateY(115vh) rotate(540deg); opacity:.2; }
+  }
 
   .sr-only{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
 
@@ -253,6 +276,8 @@
 <body>
 
 <div class="board-bg" aria-hidden="true"></div>
+<div id="toastLayer" aria-live="polite"></div>
+<div id="confettiLayer" aria-hidden="true"></div>
 
 <!-- MOBILE-ONLY GATE -->
 <div id="lockScreen">
@@ -268,36 +293,61 @@
   <!-- START -->
   <section id="startScreen" class="screen">
     <span class="badge">2º ESO · English</span>
+    <div class="mascot happy" id="mascotStart">
+      <div class="mascot-eyes"><span class="mascot-eye"></span><span class="mascot-eye"></span></div>
+      <div class="mascot-mouth"></div>
+    </div>
     <div class="title-wrap">
       <h1>Verbos<br>Irregulares</h1>
       <svg class="underline-svg" viewBox="0 0 320 18" aria-hidden="true">
         <path d="M4 12 Q 40 2, 80 10 T 160 9 T 240 11 T 316 6"/>
       </svg>
     </div>
-    <p class="subtitle">Elige la forma correcta antes de que se acabe el tiempo. Tres corazones, sin excusas.</p>
+    <p class="subtitle">Elige tu modo, encadena aciertos y usa tus poderes de tiza para no perder ni una vida.</p>
 
-    <div class="rules">
-      <div class="rule">⏳ <span>Tienes <b>10 segundos</b> por verbo.</span></div>
-      <div class="rule">❤️ <span>Pierdes una vida si fallas o se acaba el tiempo.</span></div>
-      <div class="rule">🔥 <span>Encadena aciertos para sumar puntos extra.</span></div>
+    <div class="hs-row">
+      <div class="hs-chip">Récord<b id="hsScore">0</b></div>
+      <div class="hs-chip">Mejor racha<b id="hsStreak">0</b></div>
     </div>
 
-    <button class="btn-primary" id="startBtn">Empezar</button>
+    <div class="modes">
+      <button class="mode-card quick" id="startQuick">
+        <div class="m-top"><span class="m-name">Modo Rápido</span><span class="m-tag">20 verbos</span></div>
+        <span class="m-desc">Los verbos más frecuentes de 2º ESO. Ideal para un repaso exprés.</span>
+      </button>
+      <button class="mode-card marathon" id="startMarathon">
+        <div class="m-top"><span class="m-name">Modo Maratón</span><span class="m-tag" id="marathonCount">154 verbos</span></div>
+        <span class="m-desc">Todos los irregulares, uno detrás de otro. La velocidad sube según avanzas. ¿Aguantarás?</span>
+      </button>
+    </div>
+
+    <div class="ach-row" id="achRow"></div>
   </section>
 
   <!-- GAME -->
   <section id="gameScreen" class="screen hidden">
     <div class="hud">
-      <div class="hearts" id="hearts" aria-label="Vidas restantes"></div>
-      <div class="round-label" id="roundLabel">Ronda 1/15</div>
+      <div class="hud-left">
+        <div class="mascot small neutral" id="mascotGame">
+          <div class="mascot-eyes"><span class="mascot-eye"></span><span class="mascot-eye"></span></div>
+          <div class="mascot-mouth"></div>
+        </div>
+        <div class="hearts" id="hearts" aria-label="Vidas restantes"></div>
+      </div>
+      <div class="round-label" id="roundLabel">Ronda 1/20</div>
       <div class="score-label" id="scoreLabel">0 pts</div>
     </div>
 
     <div class="timer-track"><div class="timer-fill" id="timerFill"></div></div>
 
+    <div class="powerups">
+      <button class="pu-btn" id="puFifty">🔀 50/50 <span class="n" id="puFiftyN">2</span></button>
+      <button class="pu-btn" id="puTime">⏱️ +5s <span class="n" id="puTimeN">2</span></button>
+    </div>
+
     <div class="streak-chip" id="streakChip">🔥 Racha</div>
 
-    <div class="verb-card">
+    <div class="verb-card" id="verbCard">
       <div class="verb-inf" id="verbInf">go</div>
       <div class="verb-es" id="verbEs">(ir)</div>
       <div class="verb-ask" id="verbAsk">¿Pasado simple?</div>
@@ -316,6 +366,10 @@
 
   <!-- END -->
   <section id="endScreen" class="screen hidden">
+    <div class="mascot happy" id="mascotEnd">
+      <div class="mascot-eyes"><span class="mascot-eye"></span><span class="mascot-eye"></span></div>
+      <div class="mascot-mouth"></div>
+    </div>
     <h2 id="endTitle">¡Partida terminada!</h2>
     <p class="end-sub" id="endSub">Buen intento, sigue practicando.</p>
 
@@ -325,7 +379,7 @@
     </div>
 
     <div class="stat-row">
-      <div class="stat"><div class="num" id="finalCorrect">0/15</div><div class="lab">aciertos</div></div>
+      <div class="stat"><div class="num" id="finalCorrect">0/20</div><div class="lab">aciertos</div></div>
       <div class="stat"><div class="num" id="finalStreak">0</div><div class="lab">mejor racha</div></div>
     </div>
 
@@ -336,6 +390,7 @@
 
     <div class="end-actions">
       <button class="btn-primary" id="retryBtn">Jugar otra vez</button>
+      <button class="btn-secondary" id="menuBtn">Volver al menú</button>
     </div>
   </section>
 
@@ -356,23 +411,18 @@
     var uaMobile = /Android|iPhone|iPad|iPod|Mobile|Windows Phone/i.test(navigator.userAgent);
     return (touch || coarse || uaMobile) && narrow;
   }
-
   function applyGate(){
-    if (isMobileDevice()){
-      lockScreen.classList.add('hidden');
-      appEl.classList.remove('hidden');
-    } else {
-      lockScreen.classList.remove('hidden');
-      appEl.classList.add('hidden');
-    }
+    if (isMobileDevice()){ lockScreen.classList.add('hidden'); appEl.classList.remove('hidden'); }
+    else { lockScreen.classList.remove('hidden'); appEl.classList.add('hidden'); }
   }
   applyGate();
   window.addEventListener('resize', applyGate);
   window.addEventListener('orientationchange', applyGate);
 
   /* ================= VERB DATA ================= */
-  var VERBS = [
-    {inf:'be',es:'ser / estar',past:'was/were',pp:'been'},
+  // Núcleo (2º ESO) — modo rápido
+  var CORE = [
+    {inf:'be',es:'ser / estar',past:'was / were',pp:'been'},
     {inf:'have',es:'tener',past:'had',pp:'had'},
     {inf:'do',es:'hacer',past:'did',pp:'done'},
     {inf:'go',es:'ir',past:'went',pp:'gone'},
@@ -399,6 +449,7 @@
     {inf:'stand',es:'estar de pie',past:'stood',pp:'stood'},
     {inf:'hear',es:'oír',past:'heard',pp:'heard'},
     {inf:'let',es:'dejar / permitir',past:'let',pp:'let'},
+    {inf:'mean',es:'significar',past:'meant',pp:'meant'},
     {inf:'meet',es:'conocer / reunirse',past:'met',pp:'met'},
     {inf:'run',es:'correr',past:'ran',pp:'run'},
     {inf:'pay',es:'pagar',past:'paid',pp:'paid'},
@@ -430,18 +481,119 @@
     {inf:'fight',es:'luchar / pelear',past:'fought',pp:'fought'}
   ];
 
-  var ROUNDS_TOTAL = 15;
-  var TIME_MS = 10000;
+  // Ampliación para el modo maratón (se suma al núcleo)
+  var EXTRA = [
+    {inf:'arise',es:'surgir',past:'arose',pp:'arisen'},
+    {inf:'awake',es:'despertarse',past:'awoke',pp:'awoken'},
+    {inf:'bear',es:'soportar',past:'bore',pp:'borne'},
+    {inf:'beat',es:'golpear / vencer',past:'beat',pp:'beaten'},
+    {inf:'bend',es:'doblar',past:'bent',pp:'bent'},
+    {inf:'bet',es:'apostar',past:'bet',pp:'bet'},
+    {inf:'bind',es:'atar',past:'bound',pp:'bound'},
+    {inf:'bite',es:'morder',past:'bit',pp:'bitten'},
+    {inf:'bleed',es:'sangrar',past:'bled',pp:'bled'},
+    {inf:'blow',es:'soplar',past:'blew',pp:'blown'},
+    {inf:'breed',es:'criar',past:'bred',pp:'bred'},
+    {inf:'broadcast',es:'emitir',past:'broadcast',pp:'broadcast'},
+    {inf:'burn',es:'quemar',past:'burnt',pp:'burnt'},
+    {inf:'burst',es:'reventar',past:'burst',pp:'burst'},
+    {inf:'cling',es:'aferrarse',past:'clung',pp:'clung'},
+    {inf:'cost',es:'costar',past:'cost',pp:'cost'},
+    {inf:'creep',es:'arrastrarse',past:'crept',pp:'crept'},
+    {inf:'deal',es:'tratar / repartir',past:'dealt',pp:'dealt'},
+    {inf:'dig',es:'cavar',past:'dug',pp:'dug'},
+    {inf:'dive',es:'bucear / zambullirse',past:'dived',pp:'dived'},
+    {inf:'draw',es:'dibujar',past:'drew',pp:'drawn'},
+    {inf:'dream',es:'soñar',past:'dreamt',pp:'dreamt'},
+    {inf:'feed',es:'alimentar',past:'fed',pp:'fed'},
+    {inf:'flee',es:'huir',past:'fled',pp:'fled'},
+    {inf:'fling',es:'arrojar',past:'flung',pp:'flung'},
+    {inf:'forbid',es:'prohibir',past:'forbade',pp:'forbidden'},
+    {inf:'forecast',es:'pronosticar',past:'forecast',pp:'forecast'},
+    {inf:'foresee',es:'prever',past:'foresaw',pp:'foreseen'},
+    {inf:'forget',es:'olvidar',past:'forgot',pp:'forgotten'},
+    {inf:'forgive',es:'perdonar',past:'forgave',pp:'forgiven'},
+    {inf:'freeze',es:'congelar',past:'froze',pp:'frozen'},
+    {inf:'grind',es:'moler',past:'ground',pp:'ground'},
+    {inf:'hang',es:'colgar',past:'hung',pp:'hung'},
+    {inf:'hide',es:'esconder',past:'hid',pp:'hidden'},
+    {inf:'hit',es:'golpear',past:'hit',pp:'hit'},
+    {inf:'hurt',es:'herir / doler',past:'hurt',pp:'hurt'},
+    {inf:'kneel',es:'arrodillarse',past:'knelt',pp:'knelt'},
+    {inf:'lay',es:'poner / colocar',past:'laid',pp:'laid'},
+    {inf:'lead',es:'liderar / guiar',past:'led',pp:'led'},
+    {inf:'lean',es:'apoyarse',past:'leant',pp:'leant'},
+    {inf:'leap',es:'saltar',past:'leapt',pp:'leapt'},
+    {inf:'learn',es:'aprender',past:'learnt',pp:'learnt'},
+    {inf:'lend',es:'prestar',past:'lent',pp:'lent'},
+    {inf:'lie',es:'tumbarse / yacer',past:'lay',pp:'lain'},
+    {inf:'light',es:'encender',past:'lit',pp:'lit'},
+    {inf:'mistake',es:'confundir',past:'mistook',pp:'mistaken'},
+    {inf:'mow',es:'cortar (el césped)',past:'mowed',pp:'mown'},
+    {inf:'overcome',es:'superar',past:'overcame',pp:'overcome'},
+    {inf:'oversleep',es:'quedarse dormido',past:'overslept',pp:'overslept'},
+    {inf:'quit',es:'dejar / abandonar',past:'quit',pp:'quit'},
+    {inf:'ride',es:'montar',past:'rode',pp:'ridden'},
+    {inf:'ring',es:'sonar / llamar',past:'rang',pp:'rung'},
+    {inf:'rise',es:'elevarse',past:'rose',pp:'risen'},
+    {inf:'saw',es:'serrar',past:'sawed',pp:'sawn'},
+    {inf:'say',es:'decir',past:'said',pp:'said'},
+    {inf:'seek',es:'buscar',past:'sought',pp:'sought'},
+    {inf:'sell',es:'vender',past:'sold',pp:'sold'},
+    {inf:'set',es:'colocar / fijar',past:'set',pp:'set'},
+    {inf:'sew',es:'coser',past:'sewed',pp:'sewn'},
+    {inf:'shake',es:'agitar',past:'shook',pp:'shaken'},
+    {inf:'shed',es:'derramar',past:'shed',pp:'shed'},
+    {inf:'shine',es:'brillar',past:'shone',pp:'shone'},
+    {inf:'shoot',es:'disparar',past:'shot',pp:'shot'},
+    {inf:'shrink',es:'encoger',past:'shrank',pp:'shrunk'},
+    {inf:'shut',es:'cerrar',past:'shut',pp:'shut'},
+    {inf:'sink',es:'hundir',past:'sank',pp:'sunk'},
+    {inf:'slide',es:'deslizar',past:'slid',pp:'slid'},
+    {inf:'sling',es:'lanzar (con correa)',past:'slung',pp:'slung'},
+    {inf:'smell',es:'oler',past:'smelt',pp:'smelt'},
+    {inf:'sow',es:'sembrar',past:'sowed',pp:'sown'},
+    {inf:'speed',es:'acelerar',past:'sped',pp:'sped'},
+    {inf:'spell',es:'deletrear',past:'spelt',pp:'spelt'},
+    {inf:'spill',es:'derramar',past:'spilt',pp:'spilt'},
+    {inf:'spin',es:'girar',past:'spun',pp:'spun'},
+    {inf:'spit',es:'escupir',past:'spat',pp:'spat'},
+    {inf:'split',es:'partir / dividir',past:'split',pp:'split'},
+    {inf:'spoil',es:'estropear',past:'spoilt',pp:'spoilt'},
+    {inf:'spread',es:'extender',past:'spread',pp:'spread'},
+    {inf:'spring',es:'saltar / brotar',past:'sprang',pp:'sprung'},
+    {inf:'steal',es:'robar',past:'stole',pp:'stolen'},
+    {inf:'stick',es:'pegar',past:'stuck',pp:'stuck'},
+    {inf:'sting',es:'picar',past:'stung',pp:'stung'},
+    {inf:'stink',es:'apestar',past:'stank',pp:'stunk'},
+    {inf:'strike',es:'golpear / hacer huelga',past:'struck',pp:'struck'},
+    {inf:'swear',es:'jurar',past:'swore',pp:'sworn'},
+    {inf:'sweep',es:'barrer',past:'swept',pp:'swept'},
+    {inf:'swell',es:'hincharse',past:'swelled',pp:'swollen'},
+    {inf:'swing',es:'columpiar',past:'swung',pp:'swung'},
+    {inf:'tear',es:'rasgar',past:'tore',pp:'torn'},
+    {inf:'upset',es:'disgustar',past:'upset',pp:'upset'},
+    {inf:'wake',es:'despertar',past:'woke',pp:'woken'},
+    {inf:'weave',es:'tejer',past:'wove',pp:'woven'},
+    {inf:'weep',es:'llorar',past:'wept',pp:'wept'},
+    {inf:'win',es:'ganar',past:'won',pp:'won'},
+    {inf:'wind',es:'enrollar',past:'wound',pp:'wound'},
+    {inf:'withdraw',es:'retirar',past:'withdrew',pp:'withdrawn'},
+    {inf:'wring',es:'retorcer',past:'wrung',pp:'wrung'}
+  ];
 
-  var PAST_POOL = uniq(VERBS.map(function(v){return v.past;}));
-  var PP_POOL = uniq(VERBS.map(function(v){return v.pp;}));
+  var ALL_VERBS = CORE.concat(EXTRA);
+  document.getElementById('marathonCount').textContent = ALL_VERBS.length + ' verbos';
+
+  var PAST_POOL = uniq(ALL_VERBS.map(function(v){return v.past;}));
+  var PP_POOL = uniq(ALL_VERBS.map(function(v){return v.pp;}));
 
   function uniq(arr){
     var seen = {}, out = [];
     arr.forEach(function(x){
       x.split('/').forEach(function(part){
         part = part.trim();
-        if(!seen[part]){ seen[part]=true; out.push(part); }
+        if (part && !seen[part]){ seen[part]=true; out.push(part); }
       });
     });
     return out;
@@ -450,25 +602,18 @@
   function regularize(inf){
     if (/e$/.test(inf)) return inf + 'd';
     if (/[^aeiou]y$/.test(inf)) return inf.slice(0,-1) + 'ied';
-    if (/[^aeiou][aeiou][bdgmnprt]$/.test(inf) && inf.length<=4) return inf + inf.slice(-1) + 'ed';
+    if (/[^aeiou][aeiou][bdgmnprt]$/.test(inf) && inf.length<=5) return inf + inf.slice(-1) + 'ed';
     return inf + 'ed';
   }
 
   function shuffle(arr){
     var a = arr.slice();
-    for (var i=a.length-1;i>0;i--){
-      var j = Math.floor(Math.random()*(i+1));
-      var t=a[i]; a[i]=a[j]; a[j]=t;
-    }
+    for (var i=a.length-1;i>0;i--){ var j = Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; }
     return a;
   }
-
   function pick(arr,n){ return shuffle(arr).slice(0,n); }
 
-  function firstForm(v, type){
-    var val = type==='past' ? v.past : v.pp;
-    return val.split('/')[0].trim();
-  }
+  function firstForm(v, type){ return type==='past' ? v.past : v.pp; }
 
   function buildOptions(verb, type){
     var correct = firstForm(verb, type);
@@ -476,51 +621,151 @@
     var wrongs = [];
     var mistake = regularize(verb.inf);
     if (mistake !== correct) wrongs.push(mistake);
-    var extra = pick(pool, 4).filter(function(x){ return wrongs.indexOf(x)===-1; });
+    var extra = pick(pool, 5).filter(function(x){ return wrongs.indexOf(x)===-1; });
     wrongs = wrongs.concat(extra).slice(0,3);
     while (wrongs.length < 3){
       var f = pick(pool,1)[0];
-      if (f && wrongs.indexOf(f)===-1 && f!==correct) wrongs.push(f);
-      else break;
+      if (f && wrongs.indexOf(f)===-1 && f!==correct) wrongs.push(f); else break;
     }
-    var options = shuffle([correct].concat(wrongs));
-    return { options: options, correct: correct };
+    return { options: shuffle([correct].concat(wrongs)), correct: correct };
   }
 
-  /* ================= AUDIO (tiny beeps, no files) ================= */
+  /* ================= AUDIO ================= */
   var actx = null;
   function beep(freq, dur, type){
     try{
       if (!actx) actx = new (window.AudioContext || window.webkitAudioContext)();
-      var o = actx.createOscillator();
-      var g = actx.createGain();
-      o.type = type || 'sine';
-      o.frequency.value = freq;
-      g.gain.value = 0.06;
-      o.connect(g); g.connect(actx.destination);
-      o.start();
+      var o = actx.createOscillator(); var g = actx.createGain();
+      o.type = type || 'sine'; o.frequency.value = freq; g.gain.value = 0.06;
+      o.connect(g); g.connect(actx.destination); o.start();
       g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
       o.stop(actx.currentTime + dur);
     }catch(e){}
   }
-  function vibrate(pattern){ if (navigator.vibrate) { try{ navigator.vibrate(pattern); }catch(e){} } }
+  function chord(freqs, dur){ freqs.forEach(function(f,i){ setTimeout(function(){ beep(f, dur, 'triangle'); }, i*70); }); }
+  function vibrate(pattern){ if (navigator.vibrate){ try{ navigator.vibrate(pattern); }catch(e){} } }
+
+  /* ================= STORAGE ================= */
+  function loadNum(key){ var v = parseInt(localStorage.getItem(key)||'0',10); return isNaN(v)?0:v; }
+  function saveNum(key,val){ try{ localStorage.setItem(key, String(val)); }catch(e){} }
+  function loadAch(){ try{ return JSON.parse(localStorage.getItem('ivg_achievements')||'[]'); }catch(e){ return []; } }
+  function saveAch(list){ try{ localStorage.setItem('ivg_achievements', JSON.stringify(list)); }catch(e){} }
+
+  var HIGH_SCORE = loadNum('ivg_highscore');
+  var BEST_STREAK_EVER = loadNum('ivg_beststreak');
+  var UNLOCKED = loadAch();
+
+  var ACHIEVEMENTS = [
+    {id:'streak5', icon:'🔥', name:'Racha de fuego', check:function(s){ return s.bestStreak >= 5; }},
+    {id:'streak10', icon:'⚡', name:'Imparable', check:function(s){ return s.bestStreak >= 10; }},
+    {id:'perfect', icon:'🌟', name:'Pleno', check:function(s){ return s.mode==='quick' && s.correctCount===s.roundsTotal && s.round>=s.roundsTotal; }},
+    {id:'marathon', icon:'🏁', name:'Maratonista', check:function(s){ return s.mode==='marathon' && s.round>=s.roundsTotal; }},
+    {id:'scholar', icon:'🎓', name:'Sabelotodo', check:function(s){ return s.score >= 500; }}
+  ];
+
+  function renderAchievements(){
+    var row = document.getElementById('achRow');
+    row.innerHTML = '';
+    ACHIEVEMENTS.forEach(function(a){
+      var el = document.createElement('div');
+      var isU = UNLOCKED.indexOf(a.id) !== -1;
+      el.className = 'ach-badge ' + (isU ? 'unlocked' : 'locked');
+      el.textContent = a.icon;
+      el.title = a.name;
+      row.appendChild(el);
+    });
+  }
+
+  function renderHighScores(){
+    document.getElementById('hsScore').textContent = HIGH_SCORE;
+    document.getElementById('hsStreak').textContent = BEST_STREAK_EVER;
+  }
+
+  function checkAchievements(s){
+    var newly = [];
+    ACHIEVEMENTS.forEach(function(a){
+      if (UNLOCKED.indexOf(a.id) === -1 && a.check(s)){
+        UNLOCKED.push(a.id); newly.push(a);
+      }
+    });
+    if (newly.length){ saveAch(UNLOCKED); renderAchievements(); }
+    return newly;
+  }
+
+  /* ================= TOASTS / CONFETTI ================= */
+  var toastLayer = document.getElementById('toastLayer');
+  var toastQueue = [];
+  var toastBusy = false;
+  function queueToast(text){
+    toastQueue.push(text);
+    if (!toastBusy) runToastQueue();
+  }
+  function runToastQueue(){
+    if (!toastQueue.length){ toastBusy=false; return; }
+    toastBusy = true;
+    var text = toastQueue.shift();
+    var el = document.createElement('div');
+    el.className = 'toast';
+    el.textContent = text;
+    toastLayer.appendChild(el);
+    requestAnimationFrame(function(){ el.classList.add('show'); });
+    setTimeout(function(){
+      el.classList.remove('show');
+      setTimeout(function(){ el.remove(); runToastQueue(); }, 250);
+    }, 1900);
+  }
+
+  var CONFETTI_COLORS = ['#F2C14E','#FF6B5E','#6FCF97','#6FB6DE','#B49CE0','#F4F1E6'];
+  function burstConfetti(){
+    var layer = document.getElementById('confettiLayer');
+    for (var i=0;i<30;i++){
+      var p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.left = (Math.random()*100) + 'vw';
+      p.style.background = CONFETTI_COLORS[Math.floor(Math.random()*CONFETTI_COLORS.length)];
+      p.style.animationDuration = (1.6 + Math.random()*1.2) + 's';
+      p.style.transform = 'rotate(' + Math.floor(Math.random()*360) + 'deg)';
+      layer.appendChild(p);
+      (function(el){ setTimeout(function(){ el.remove(); }, 3200); })(p);
+    }
+  }
+
+  /* ================= MASCOT ================= */
+  function setMascot(el, mood){
+    el.className = el.className.replace(/\b(neutral|happy|sad|wow)\b/g,'').trim();
+    el.classList.add(mood);
+  }
+
+  /* ================= MESSAGES ================= */
+  var CORRECT_MSGS = ['¡Toma ya!','¡Perfecto!','¡Eso es!','¡Crack!','¡Ni un fallo!','¡Genial!','¡Ahí está!'];
+  var WRONG_MSGS_PREFIX = ['¡Casi! Era', 'Ojo, era', 'Anótalo: era', 'La próxima cae — era'];
 
   /* ================= GAME STATE ================= */
+  var TIME_MS_BASE = 10000;
+  var TIME_MS_FLOOR = 5000;
+
   var state;
-  function freshState(){
+  function freshState(mode){
+    var pool = mode==='quick' ? CORE : ALL_VERBS;
+    var count = mode==='quick' ? 20 : ALL_VERBS.length;
     return {
+      mode: mode,
       round: 0,
+      roundsTotal: count,
       lives: 3,
       score: 0,
       streak: 0,
       bestStreak: 0,
       correctCount: 0,
       missed: [],
-      order: shuffle(VERBS).slice(0, ROUNDS_TOTAL),
+      order: shuffle(pool).slice(0, count),
       timer: null,
-      timeLeft: TIME_MS,
+      timeMs: TIME_MS_BASE,
+      timeLeft: TIME_MS_BASE,
       answered: false,
-      current: null
+      current: null,
+      speedTier: 0,
+      powerups: { fifty: 2, time: 2 }
     };
   }
 
@@ -529,22 +774,30 @@
   var gameScreen = document.getElementById('gameScreen');
   var endScreen = document.getElementById('endScreen');
 
-  var startBtn = document.getElementById('startBtn');
+  var startQuick = document.getElementById('startQuick');
+  var startMarathon = document.getElementById('startMarathon');
   var retryBtn = document.getElementById('retryBtn');
+  var menuBtn = document.getElementById('menuBtn');
 
   var heartsEl = document.getElementById('hearts');
   var roundLabel = document.getElementById('roundLabel');
   var scoreLabel = document.getElementById('scoreLabel');
   var timerFill = document.getElementById('timerFill');
   var streakChip = document.getElementById('streakChip');
+  var mascotGame = document.getElementById('mascotGame');
 
+  var verbCard = document.getElementById('verbCard');
   var verbInf = document.getElementById('verbInf');
   var verbEs = document.getElementById('verbEs');
   var verbAsk = document.getElementById('verbAsk');
-  var answersGrid = document.getElementById('answersGrid');
   var answerBtns = Array.prototype.slice.call(document.querySelectorAll('.answer-btn'));
   var feedbackLayer = document.getElementById('feedbackLayer');
   var feedbackMsg = document.getElementById('feedbackMsg');
+
+  var puFifty = document.getElementById('puFifty');
+  var puTime = document.getElementById('puTime');
+  var puFiftyN = document.getElementById('puFiftyN');
+  var puTimeN = document.getElementById('puTimeN');
 
   var endTitle = document.getElementById('endTitle');
   var endSub = document.getElementById('endSub');
@@ -553,6 +806,7 @@
   var finalStreak = document.getElementById('finalStreak');
   var reviewBox = document.getElementById('reviewBox');
   var reviewList = document.getElementById('reviewList');
+  var mascotEnd = document.getElementById('mascotEnd');
 
   function showScreen(el){
     [startScreen, gameScreen, endScreen].forEach(function(s){ s.classList.add('hidden'); });
@@ -569,15 +823,26 @@
       heartsEl.appendChild(span);
     }
   }
-
   function renderHud(){
-    roundLabel.textContent = 'Ronda ' + (state.round+1) + '/' + ROUNDS_TOTAL;
+    roundLabel.textContent = 'Ronda ' + (state.round+1) + '/' + state.roundsTotal;
     scoreLabel.textContent = state.score + ' pts';
     renderHearts();
+    puFiftyN.textContent = state.powerups.fifty;
+    puTimeN.textContent = state.powerups.time;
+    puFifty.disabled = state.powerups.fifty <= 0;
+    puTime.disabled = state.powerups.time <= 0;
+  }
+
+  function currentTimeMs(){
+    if (state.mode !== 'marathon') return TIME_MS_BASE;
+    var tier = Math.floor(state.correctCount / 15);
+    var ms = TIME_MS_BASE - tier*500;
+    return Math.max(TIME_MS_FLOOR, ms);
   }
 
   function startTimerBar(){
-    state.timeLeft = TIME_MS;
+    state.timeMs = currentTimeMs();
+    state.timeLeft = state.timeMs;
     timerFill.style.width = '100%';
     timerFill.classList.remove('warn');
     var last = performance.now();
@@ -586,34 +851,37 @@
       var now = performance.now();
       var dt = now - last; last = now;
       state.timeLeft -= dt;
-      var pct = Math.max(0, state.timeLeft / TIME_MS) * 100;
+      var pct = Math.max(0, state.timeLeft / state.timeMs) * 100;
       timerFill.style.width = pct + '%';
       if (pct < 30) timerFill.classList.add('warn');
-      if (state.timeLeft <= 0){
-        clearInterval(state.timer);
-        handleTimeout();
-      }
+      if (state.timeLeft <= 0){ clearInterval(state.timer); handleTimeout(); }
     }, 100);
+  }
+
+  function maybeAnnounceSpeedUp(){
+    if (state.mode !== 'marathon') return;
+    var tier = Math.floor(state.correctCount / 15);
+    if (tier > state.speedTier && currentTimeMs() > TIME_MS_FLOOR - 1){
+      state.speedTier = tier;
+      queueToast('⚡ ¡Más rápido! ' + (currentTimeMs()/1000) + 's por verbo');
+    } else if (tier > state.speedTier){
+      state.speedTier = tier;
+    }
   }
 
   function nextRound(){
     feedbackLayer.innerHTML = '';
     feedbackMsg.textContent = '';
     streakChip.classList.remove('show');
-    answerBtns.forEach(function(b){
-      b.disabled = false;
-      b.className = 'answer-btn';
-    });
+    verbCard.classList.remove('shake');
+    setMascot(mascotGame, 'neutral');
+    answerBtns.forEach(function(b){ b.disabled = false; b.className = 'answer-btn'; });
 
-    if (state.round >= ROUNDS_TOTAL){
-      endGame();
-      return;
-    }
+    if (state.round >= state.roundsTotal){ endGame(); return; }
 
     var verb = state.order[state.round];
     var type = Math.random() < 0.5 ? 'past' : 'pp';
     var built = buildOptions(verb, type);
-
     state.current = { verb: verb, type: type, correct: built.correct, answered:false };
 
     verbInf.textContent = verb.inf;
@@ -631,14 +899,11 @@
 
   /* ---- hand-drawn feedback squiggles ---- */
   function svgNS(tag){ return document.createElementNS('http://www.w3.org/2000/svg', tag); }
-
   function overlayFor(btn){
-    var x = btn.offsetLeft - 8, y = btn.offsetTop - 8;
-    var w = btn.offsetWidth + 16, h = btn.offsetHeight + 16;
-    return {x:x,y:y,w:w,h:h};
+    return { x: btn.offsetLeft-8, y: btn.offsetTop-8, w: btn.offsetWidth+16, h: btn.offsetHeight+16 };
   }
-
   function drawCircleAround(btn, color){
+    if (!btn) return;
     var box = overlayFor(btn);
     var svg = svgNS('svg');
     svg.setAttribute('width', box.w); svg.setAttribute('height', box.h);
@@ -650,17 +915,12 @@
       ' C ' + (cx+rx*1.3) + ' ' + (cy-ry*0.1) + ' ' + (cx+rx*1.05) + ' ' + (cy+ry*0.9) + ' ' + cx + ' ' + (cy+ry) +
       ' C ' + (cx-rx*0.9) + ' ' + (cy+ry*1.05) + ' ' + (cx-rx*1.15) + ' ' + (cy+ry*0.2) + ' ' + (cx-rx*0.95) + ' ' + (cy-ry*0.1);
     var path = svgNS('path');
-    path.setAttribute('d', d);
-    path.setAttribute('stroke', color);
-    path.setAttribute('stroke-width', '4');
-    svg.appendChild(path);
-    feedbackLayer.appendChild(svg);
+    path.setAttribute('d', d); path.setAttribute('stroke', color); path.setAttribute('stroke-width', '4');
+    svg.appendChild(path); feedbackLayer.appendChild(svg);
     var len = path.getTotalLength();
-    path.style.strokeDasharray = len;
-    path.style.strokeDashoffset = len;
+    path.style.strokeDasharray = len; path.style.strokeDashoffset = len;
     requestAnimationFrame(function(){ path.style.strokeDashoffset = 0; });
   }
-
   function drawCrossOver(btn, color){
     var box = overlayFor(btn);
     var svg = svgNS('svg');
@@ -668,21 +928,41 @@
     svg.setAttribute('viewBox', '0 0 ' + box.w + ' ' + box.h);
     svg.style.left = box.x + 'px'; svg.style.top = box.y + 'px';
     var m = 14;
-    var d = 'M ' + m + ' ' + m + ' L ' + (box.w-m) + ' ' + (box.h-m) +
-            ' M ' + (box.w-m) + ' ' + m + ' L ' + m + ' ' + (box.h-m);
+    var d = 'M ' + m + ' ' + m + ' L ' + (box.w-m) + ' ' + (box.h-m) + ' M ' + (box.w-m) + ' ' + m + ' L ' + m + ' ' + (box.h-m);
     var path = svgNS('path');
-    path.setAttribute('d', d);
-    path.setAttribute('stroke', color);
-    path.setAttribute('stroke-width', '5');
-    svg.appendChild(path);
-    feedbackLayer.appendChild(svg);
+    path.setAttribute('d', d); path.setAttribute('stroke', color); path.setAttribute('stroke-width', '5');
+    svg.appendChild(path); feedbackLayer.appendChild(svg);
     var len = path.getTotalLength();
-    path.style.strokeDasharray = len;
-    path.style.strokeDashoffset = len;
+    path.style.strokeDasharray = len; path.style.strokeDashoffset = len;
     requestAnimationFrame(function(){ path.style.strokeDashoffset = 0; });
   }
 
+  /* ================= POWER-UPS ================= */
+  puFifty.addEventListener('click', function(){
+    if (!state.current || state.current.answered || state.powerups.fifty <= 0) return;
+    state.powerups.fifty--;
+    var wrongBtns = answerBtns.filter(function(b){ return b.dataset.value !== state.current.correct; });
+    pick(wrongBtns, 2).forEach(function(b){ b.disabled = true; b.classList.add('dim'); });
+    renderHud();
+    beep(420, .1, 'square');
+  });
+  puTime.addEventListener('click', function(){
+    if (!state.current || state.current.answered || state.powerups.time <= 0) return;
+    state.powerups.time--;
+    state.timeLeft += 5000;
+    state.timeMs += 5000;
+    renderHud();
+    feedbackMsg.textContent = '⏱️ +5 segundos';
+    feedbackMsg.className = 'feedback-msg correct';
+    beep(520, .12, 'square');
+  });
+
   /* ================= ANSWER HANDLING ================= */
+  function endOfRound(){
+    state.round++;
+    if (state.lives <= 0){ endGame(); } else { nextRound(); }
+  }
+
   function handleAnswer(selectedBtn){
     if (!state.current || state.current.answered) return;
     state.current.answered = true;
@@ -695,21 +975,22 @@
 
     answerBtns.forEach(function(b){
       if (b.dataset.value === correct) b.classList.add('correct');
-      else b.classList.add('dim');
+      else if (!b.classList.contains('dim')) b.classList.add('dim');
     });
 
     if (isCorrect){
       state.streak++;
       state.bestStreak = Math.max(state.bestStreak, state.streak);
       state.correctCount++;
-      var timeBonus = Math.round((state.timeLeft / TIME_MS) * 8);
+      var timeBonus = Math.round((state.timeLeft / state.timeMs) * 8);
       var streakBonus = Math.min(state.streak - 1, 5) * 3;
       var gained = 10 + timeBonus + streakBonus;
       state.score += gained;
 
       drawCircleAround(selectedBtn, 'var(--mint)');
-      feedbackMsg.textContent = '¡Bien! +' + gained + ' pts';
+      feedbackMsg.textContent = CORRECT_MSGS[Math.floor(Math.random()*CORRECT_MSGS.length)] + ' +' + gained + ' pts';
       feedbackMsg.className = 'feedback-msg correct';
+      setMascot(mascotGame, state.streak >= 3 ? 'wow' : 'happy');
       beep(660, .12, 'triangle');
       vibrate(18);
 
@@ -717,30 +998,30 @@
         streakChip.textContent = '🔥 Racha x' + state.streak;
         streakChip.classList.add('show');
       }
+      if (state.streak > 0 && state.streak % 5 === 0){
+        burstConfetti();
+        chord([660,880,1040], .15);
+      }
+      maybeAnnounceSpeedUp();
     } else {
       selectedBtn.classList.remove('dim');
       selectedBtn.classList.add('wrong');
       drawCrossOver(selectedBtn, 'var(--coral)');
       drawCircleAround(document.querySelector('.answer-btn.correct'), 'var(--mint)');
+      verbCard.classList.add('shake');
       state.streak = 0;
       state.lives--;
       state.missed.push({ verb: state.current.verb, type: state.current.type, correct: correct });
-      feedbackMsg.textContent = 'Era "' + correct + '"';
+      var prefix = WRONG_MSGS_PREFIX[Math.floor(Math.random()*WRONG_MSGS_PREFIX.length)];
+      feedbackMsg.textContent = prefix + ' "' + correct + '"';
       feedbackMsg.className = 'feedback-msg wrong';
+      setMascot(mascotGame, 'sad');
       beep(180, .25, 'sawtooth');
       vibrate([40,30,40]);
     }
 
     renderHud();
-
-    setTimeout(function(){
-      state.round++;
-      if (state.lives <= 0){
-        endGame();
-      } else {
-        nextRound();
-      }
-    }, 1150);
+    setTimeout(endOfRound, 1200);
   }
 
   function handleTimeout(){
@@ -751,26 +1032,20 @@
     var correct = state.current.correct;
     answerBtns.forEach(function(b){
       if (b.dataset.value === correct){ b.classList.add('correct'); drawCircleAround(b, 'var(--mint)'); }
-      else b.classList.add('dim');
+      else if (!b.classList.contains('dim')) b.classList.add('dim');
     });
 
+    verbCard.classList.add('shake');
     state.streak = 0;
     state.lives--;
     state.missed.push({ verb: state.current.verb, type: state.current.type, correct: correct });
     feedbackMsg.textContent = '¡Se acabó el tiempo! Era "' + correct + '"';
     feedbackMsg.className = 'feedback-msg wrong';
+    setMascot(mascotGame, 'sad');
     beep(160, .25, 'sawtooth');
     vibrate([40,30,40]);
     renderHud();
-
-    setTimeout(function(){
-      state.round++;
-      if (state.lives <= 0){
-        endGame();
-      } else {
-        nextRound();
-      }
-    }, 1150);
+    setTimeout(endOfRound, 1200);
   }
 
   answerBtns.forEach(function(btn){
@@ -785,18 +1060,32 @@
     var playedRounds = state.round;
     var pct = playedRounds ? state.correctCount / playedRounds : 0;
 
+    if (state.score > HIGH_SCORE){
+      HIGH_SCORE = state.score; saveNum('ivg_highscore', HIGH_SCORE);
+      queueToast('🏆 ¡Nuevo récord: ' + HIGH_SCORE + ' pts!');
+      burstConfetti();
+    }
+    if (state.bestStreak > BEST_STREAK_EVER){
+      BEST_STREAK_EVER = state.bestStreak; saveNum('ivg_beststreak', BEST_STREAK_EVER);
+    }
+    renderHighScores();
+
     if (state.lives <= 0){
       endTitle.textContent = 'Sin vidas';
       endSub.textContent = 'Repasa estos verbos y vuelve a intentarlo.';
+      setMascot(mascotEnd, 'sad');
     } else if (pct >= 0.85){
       endTitle.textContent = '¡Dominas los irregulares!';
       endSub.textContent = 'Nivel de sobresaliente. Sigue así.';
+      setMascot(mascotEnd, 'wow');
     } else if (pct >= 0.6){
       endTitle.textContent = '¡Buen trabajo!';
       endSub.textContent = 'Vas bien, un repaso más y los clavas todos.';
+      setMascot(mascotEnd, 'happy');
     } else {
       endTitle.textContent = 'Partida completada';
       endSub.textContent = 'Repasa los fallos y vuelve a intentarlo.';
+      setMascot(mascotEnd, 'neutral');
     }
 
     finalScore.textContent = state.score;
@@ -819,17 +1108,27 @@
     } else {
       reviewBox.classList.add('hidden');
     }
+
+    var newlyUnlocked = checkAchievements(state);
+    newlyUnlocked.forEach(function(a){ queueToast(a.icon + ' ¡Logro desbloqueado: ' + a.name + '!'); });
   }
 
   /* ================= START / RETRY ================= */
-  function startGame(){
-    state = freshState();
+  var lastMode = 'quick';
+  function startGame(mode){
+    lastMode = mode;
+    state = freshState(mode);
     showScreen(gameScreen);
     nextRound();
   }
 
-  startBtn.addEventListener('click', startGame);
-  retryBtn.addEventListener('click', startGame);
+  startQuick.addEventListener('click', function(){ startGame('quick'); });
+  startMarathon.addEventListener('click', function(){ startGame('marathon'); });
+  retryBtn.addEventListener('click', function(){ startGame(lastMode); });
+  menuBtn.addEventListener('click', function(){ renderHighScores(); renderAchievements(); showScreen(startScreen); });
+
+  renderHighScores();
+  renderAchievements();
 
 })();
 </script>
